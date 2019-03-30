@@ -1,0 +1,50 @@
+@import '../../../../../themes/_main.scss';
+@import '../../../../../styles.scss';
+
+.topbar {
+  color: $gray-800 !important;
+  background: transparent;
+  transition: all $transition-time;
+  position: relative;
+  left: 0;
+  right: 0;
+  @include respond-to(tablets) {
+    position: fixed;
+    z-index: 1;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  @include respond-to(handhelds) {
+    position: fixed;
+    z-index: 1;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.19);
+  }
+}
+
+.topbar .topbar-content .nav-link {
+  color: $gray-800 !important;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.topbar-topic {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 18px;
+  color: $gray-600 !important;
+}
+
+.dark-background {
+  background: whitesmoke;
+}
+
+.hidden-input {
+  width: 0px;
+  height: 0px;
+}
+
+.nav-item-input {
+  background-color: transparent;
+  border-style: none;
+  margin-right: 12px;
+  border-bottom: 1px solid lightgray;
+}

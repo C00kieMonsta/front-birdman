@@ -1,0 +1,55 @@
+@import '../../../themes/_main.scss';
+@import '../../../styles.scss';
+
+.event-center {
+  position: absolute;
+  display: flex;
+  flex-flow: column wrap;
+  top: 5px;
+  right: 5px;
+  padding: 10px;
+  z-index: 10000;
+}
+
+.onboarding {
+  position: absolute;
+  display: flex;
+  flex-flow: column wrap;
+  top: 5px;
+  right: 5px;
+  padding: 10px;
+  z-index: 999;
+}
+
+.content-wrapper {
+  min-height: 80vh;
+  transition: all $transition-time;
+}
+
+.content-wrapper.with-sidebar {
+  margin-left: 250px;
+}
+
+.content-wrapper.with-sidebar-reduced {
+  margin-left: 80px;
+}
+
+.content-wrapper.with-topbar {
+  margin-top: 72px;
+}
+.loading {
+    z-index: 1000000;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+@media print {
+  #app-header-wrapper {
+    display: none;
+  }
+  .content-wrapper {
+    margin: 0px !important;
+  }
+}

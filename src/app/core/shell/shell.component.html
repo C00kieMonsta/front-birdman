@@ -1,0 +1,20 @@
+<div class="event-center" *ngIf="(events | async)?.length">
+  <app-event *ngFor="let ev of events | async;" [event]="ev"></app-event>
+</div>
+<div *ngIf="(isLoading | async)" id="loading" class="d-flex justify-content-center align-items-center loading">
+  <app-loader isLoading="true" message="Loading..."></app-loader>
+</div>
+<div class="shell-wrapper flex-sm-column flex-md-column flex-lg-row">
+  <div id="app-header-wrapper">
+    <app-header></app-header>
+  </div>
+  <div class="content-wrapper with-topbar">
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <hr>
+    <small>Powered by a Wizard &copy; 2019. All rights reserved</small>
+  </div>
+</div>

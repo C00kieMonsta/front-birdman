@@ -1,1 +1,72 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'themes/reset.scss';
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700,800,900");
+@import url('https://fonts.googleapis.com/css?family=Lato');
+@import 'themes/main.scss';
+@import '~bootstrap/scss/bootstrap';
+@import '~@angular/cdk/overlay';
+@include cdk-overlay();
+
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+.material-icons.md-light {
+  color: rgba(255, 255, 255, 1);
+}
+
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+
+html,
+body,
+optgroup,
+select,
+textarea,
+button,
+p {
+  font-family: 'Segoe UI', 'Helvetica Neue', 'Ubuntu', 'Arial', sans-serif;
+  color: $gray-800;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+@mixin respond-to($media) {
+  @if $media==handhelds {
+    @media only screen and (max-width: 575.98px) {
+      @content;
+    }
+  }
+
+  @else if $media==tablets {
+    @media only screen and (min-width: 576px) and (max-width: 991.98px) {
+      @content;
+    }
+  }
+
+  @else if $media==medium-screens {
+    @media only screen and (min-width: 992px) and (max-width: 1199.98px) {
+      @content;
+    }
+  }
+
+  @else if $media==wide-screens {
+    @media only screen and (min-width: 1200px) {
+      @content;
+    }
+  }
+}
