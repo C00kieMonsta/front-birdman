@@ -1,6 +1,3 @@
-<div class="event-center" *ngIf="(events | async)?.length">
-  <app-event *ngFor="let ev of events | async;" [event]="ev"></app-event>
-</div>
 <div *ngIf="(isLoading | async)" id="loading" class="d-flex justify-content-center align-items-center loading">
   <app-loader isLoading="true" message="Loading..."></app-loader>
 </div>

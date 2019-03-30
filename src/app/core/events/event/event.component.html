@@ -1,0 +1,9 @@
+<div class="event-card" [ngClass]="getClass()">
+  <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+  <div class="icon">
+    <i class="material-icons">{{ event.eventIcon }}</i>
+  </div>
+  <div>
+    {{ event.message }}
+  </div>
+</div>

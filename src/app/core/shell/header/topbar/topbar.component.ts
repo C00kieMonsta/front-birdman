@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { AppService } from '../../../../app.service';
-import { Topic } from '../../../../api/api.model';
-import { TopicsService } from '../../../../topics/topics.service';
-
+import { UIService } from 'src/app/shared/ui.service';
 
 @Component({
   selector: 'app-topbar',
@@ -18,14 +15,11 @@ export class TopbarComponent implements OnInit {
   toggleSearch: boolean;
   categoriesCollapsed: boolean;
   isTabletSize: Observable<boolean>;
-  currentTopic: Observable<Topic>;
 
   constructor(
-    private readonly appService: AppService,
-    private readonly topicsService: TopicsService
+    private readonly uiService: UIService,
   ) {
-    this.isTabletSize = this.appService.isTabletSize$();
-    this.currentTopic = this.topicsService.getCurrentTopic$();
+    this.isTabletSize = this.uiService.isTabletSize$();
     this.toggleSearch = false;
     this.categoriesCollapsed = true;
   }
@@ -35,10 +29,6 @@ export class TopbarComponent implements OnInit {
   onToggleSearch() {
     this.toggleSearch = !this.toggleSearch;
     this.searchField.nativeElement.focus();
-  }
-
-  resetCurrentTopic() {
-    this.topicsService.setCurrentTopic(null);
   }
 
 }

@@ -3,21 +3,13 @@
 
 .topbar {
   color: $gray-800 !important;
-  background: transparent;
+  background: lightgray;
   transition: all $transition-time;
-  position: relative;
+  position: fixed;
+  z-index: 1;
   left: 0;
   right: 0;
-  @include respond-to(tablets) {
-    position: fixed;
-    z-index: 1;
-    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.19);
-  }
-  @include respond-to(handhelds) {
-    position: fixed;
-    z-index: 1;
-    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.19);
-  }
+  box-shadow: 0 0 8px 0 $gray-800, 0 0 10px 0 $gray-800;
 }
 
 .topbar .topbar-content .nav-link {

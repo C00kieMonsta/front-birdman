@@ -1,3 +1,20 @@
-<div>
-  Hello World
+<div class="container">
+  <div class="row">
+    <div class="col-12 form-group">
+      <div>
+          <label for="latitude">Latitude:</label>
+          <input class="input-form" id="latitude" type="number" [(ngModel)]="latitude" placeholder="Latitude">
+      </div>
+      <div>
+          <label for="longitude">Longitude:</label>
+          <input class="input-form" id="longitude" type="number" [(ngModel)]="longitude" placeholder="Longitude">
+      </div>
+      <button class="btn btn-outline-secondary" (click)="setCenter()">Go</button>
+    </div>
+  </div>
+  <div class="row">
+    <div id="map" class="map"></div>
+    <div id="mouse-position"></div>
+  </div>
 </div>
+<br>

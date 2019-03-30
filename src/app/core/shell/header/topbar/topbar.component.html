@@ -2,11 +2,9 @@
   <nav class="topbar navbar navbar-expand-lg p-0" [ngClass]="{'dark-background': (isTabletSize | async) }">
 
     <div class="d-flex flex-row flex-nowrap p-3">
-      <a routerLink="/" (click)="resetCurrentTopic()" >
+      <a routerLink="/" >
         <img src="assets/brand/icon.svg" height="30">
       </a>
-      <div *ngIf="(currentTopic | async) && !(isTabletSize | async)" class="mx-2" style="width: 1px; height: 30px; border: 0.5px solid lightgray;"></div>
-      <div *ngIf="(currentTopic | async) && !(isTabletSize | async)" class="topbar-topic">{{(currentTopic | async).name}}</div>
     </div>
 
     <div class="navbar-toggler">
