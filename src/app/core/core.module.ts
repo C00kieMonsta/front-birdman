@@ -11,8 +11,6 @@ import {HeaderComponent} from './shell/header/header.component';
 import {TopbarComponent} from './shell/header/topbar/topbar.component';
 import { Route } from './route.service';
 import { PageNotFoundComponent } from './events/errors/page-not-found/page-not-found.component';
-import { ErrorsHandler } from './events/errors/errors-handler';
-import { ServerErrorsInterceptor } from './events/errors/server-errors.interceptor';
 
 @NgModule({
   imports: [
@@ -31,15 +29,6 @@ import { ServerErrorsInterceptor } from './events/errors/server-errors.intercept
   providers: [
     ApiService,
     ShellService,
-    {
-        provide: ErrorHandler,
-        useClass: ErrorsHandler
-    },
-    {
-        provide: HTTP_INTERCEPTORS,
-        useClass: ServerErrorsInterceptor,
-        multi: true
-    },
   ]
 })
 export class CoreModule {}

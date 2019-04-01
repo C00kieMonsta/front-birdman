@@ -10,16 +10,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { reducers } from './store/global-state.reducers';
 import { environment } from '../environments/environment';
 import { HomeModule } from './home/home.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    StoreModule.forRoot(reducers),
+    AuthenticationModule.forRoot(),
     HomeModule,
     CoreModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [],
