@@ -14,10 +14,7 @@ export class HomeComponent implements OnInit {
 
   map: any;
 
-  constructor() {
-    this.latitude = 18.5204;
-    this.longitude = 73.8567;
-  }
+  constructor() {}
 
   ngOnInit() {
     if (navigator.geolocation) {

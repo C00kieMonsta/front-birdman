@@ -14,15 +14,7 @@ import { environment } from '../environments/environment';
 import { HomeModule } from './home/home.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { OutModule } from './out/out.module';
-
-const config = {
-  apiKey: "AIzaSyB6WTo9lchdJEwzaeVDNj13PcD4u6eL-Gw",
-  authDomain: "birdman-firebase.firebaseapp.com",
-  databaseURL: "https://birdman-firebase.firebaseio.com",
-  projectId: "birdman-firebase",
-  storageBucket: "birdman-firebase.appspot.com",
-  messagingSenderId: "449207344875"
-};
+import { config } from './shared/config';
 
 @NgModule({
   declarations: [AppComponent],
