@@ -14,7 +14,6 @@ export class AuthenticationModule {
     return {
       ngModule: AuthenticationModule,
       providers: [
-        AuthenticationService,
         AuthenticationGuard,
       ]
     };

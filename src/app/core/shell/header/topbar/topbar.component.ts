@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { UIService } from 'src/app/shared/ui.service';
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
 
 @Component({
   selector: 'app-topbar',
@@ -18,6 +19,7 @@ export class TopbarComponent implements OnInit {
 
   constructor(
     private readonly uiService: UIService,
+    private readonly authService: AuthenticationService,
   ) {
     this.isTabletSize = this.uiService.isTabletSize$();
     this.toggleSearch = false;
@@ -29,6 +31,10 @@ export class TopbarComponent implements OnInit {
   onToggleSearch() {
     this.toggleSearch = !this.toggleSearch;
     this.searchField.nativeElement.focus();
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 
 }

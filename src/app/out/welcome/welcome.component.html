@@ -22,10 +22,10 @@
         <div class="d-flex flex-column justify-content-center align-items-center p-3 text-center">
           <form [formGroup]="loginForm">
             <div class="form-group row justify-content-center m-3">
-              <input type="text" class="col-8 form-control" id="email" placeholder="Email" formControlName="email">
+              <input type="text" class="col-8 form-control" id="email_login_tablet" placeholder="Email" formControlName="email">
             </div>
             <div class="form-group row justify-content-center m-3">
-              <input type="password" class="col-8 form-control" id="password" placeholder="Password"
+              <input type="password" class="col-8 form-control" id="password_login_tablet" placeholder="Password"
                 formControlName="password">
             </div>
             <div class="d-flex flex-row justify-content-center align-items-center p-3 text-center">
@@ -52,10 +52,10 @@
         <div class="d-flex flex-column justify-content-center align-items-center p-3 text-center">
           <form [formGroup]="signupForm">
             <div class="form-group row justify-content-center m-3">
-              <input type="text" class="col-8 form-control" id="email" placeholder="Email" formControlName="email">
+              <input type="text" class="col-8 form-control" id="email_signup_tablet" placeholder="Email" formControlName="email">
             </div>
             <div class="form-group row justify-content-center m-3">
-              <input type="password" class="col-8 form-control" id="password" placeholder="Password"
+              <input type="password" class="col-8 form-control" id="password_signup_tablet" placeholder="Password"
                 formControlName="password">
             </div>
             <div class="d-flex flex-row justify-content-center align-items-center p-3 text-center">
@@ -95,10 +95,10 @@
     <form *ngIf="isSignInView" [formGroup]="loginForm" (ngSubmit)="onSignUp()">
       <h6>Sign into your account, or sign up if no account yet!</h6>
       <div class="form-group row justify-content-center m-3">
-        <input type="text" class="col-8 form-control" id="username" placeholder="Username" formControlName="username">
+        <input type="text" class="col-8 form-control" id="email_login_phone" placeholder="Email" formControlName="email">
       </div>
       <div class="form-group row justify-content-center m-3">
-        <input type="text" class="col-8 form-control" id="companyName" placeholder="Organization name" formControlName="companyName">
+        <input type="text" class="col-8 form-control" id="password_login_phone" placeholder="Password" formControlName="password">
       </div>
       <div class="d-flex flex-row justify-content-center align-items-center p-3 text-center">
         <button class="btn btn-outline-primary" (click)="onSignUp('auth0')">Log In</button>
@@ -107,10 +107,10 @@
 
     <form *ngIf="!isSignInView" [formGroup]="signupForm" (ngSubmit)="onSignUp()">
       <div class="form-group row justify-content-center m-3">
-        <input type="text" class="col-8 form-control" id="username" placeholder="Username" formControlName="username">
+        <input type="text" class="col-8 form-control" id="email_signup_phone" placeholder="Email" formControlName="email">
       </div>
       <div class="form-group row justify-content-center m-3">
-        <input type="text" class="col-8 form-control" id="companyName" placeholder="Organization name" formControlName="companyName">
+        <input type="text" class="col-8 form-control" id="password_signup_phone" placeholder="Password" formControlName="password">
       </div>
       <div class="d-flex flex-row justify-content-center align-items-center p-3 text-center">
         <button class="btn btn-outline-primary" (click)="onSignUp('auth0')">Sign Up</button>

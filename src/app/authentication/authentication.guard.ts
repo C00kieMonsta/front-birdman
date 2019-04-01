@@ -13,6 +13,10 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.auth.isLoggedIn) {
+      return true;
+    }
+
     this.router.navigate(['/welcome'], {replaceUrl: true});
     return false;
   }
