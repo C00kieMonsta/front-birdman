@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PageNotFoundComponent } from './core/events/errors/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: '**', redirectTo: '' }
+  // { path: '**', redirectTo: '' },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

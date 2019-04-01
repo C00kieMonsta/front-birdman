@@ -16,9 +16,10 @@ import { PageNotFoundComponent } from './events/errors/page-not-found/page-not-f
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule.forChild(Route.withShell([
-      { path: '**', component: PageNotFoundComponent },
-    ])),
+    RouterModule,
+    // RouterModule.forChild(Route.withShell([
+    //   { path: '**', component: PageNotFoundComponent },
+    // ])),
   ],
   declarations: [
     ShellComponent,

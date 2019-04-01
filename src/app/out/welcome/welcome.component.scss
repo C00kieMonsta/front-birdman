@@ -1,0 +1,12 @@
+.signup-body {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+    margin-top: 16px;
+}
+
+.left-page-container {
+    flex: 1; background-color: rgb(177, 74, 74); box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.19);
+}

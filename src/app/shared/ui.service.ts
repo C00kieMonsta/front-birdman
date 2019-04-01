@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { UIState } from '../store/ui-store/ui.reducers';
 import { GlobalState } from '../store/global-state.reducers';
-import { ToggleDesktopScreenSize, ToggleTabletScreenSize, ToggleTopbar } from '../store/ui-store/ui.actions';
+import { ToggleDesktopScreenSize, ToggleTabletScreenSize, ToggleTopbar, TogglePhoneScreenSize } from '../store/ui-store/ui.actions';
 
 
 
@@ -58,4 +58,9 @@ export class UIService {
   public toggleTopbar(show: boolean): void {
     this.store.dispatch(new ToggleTopbar(show));
   }
+
+  public togglePhoneScreenSize(isSmall: boolean): void {
+    this.store.dispatch(new TogglePhoneScreenSize(isSmall));
+  }
+
 }

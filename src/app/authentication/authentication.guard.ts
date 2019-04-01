@@ -12,9 +12,9 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild {
     private auth: AuthenticationService,
   ) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    // this.router.navigate(['/welcome'], {replaceUrl: true});
-    return true;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    this.router.navigate(['/welcome'], {replaceUrl: true});
+    return false;
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

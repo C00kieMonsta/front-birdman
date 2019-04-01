@@ -9,6 +9,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import {LoaderComponent} from './loader/loader.component';
 import {SafeHtmlPipe} from './pipes/safe-html.pipe';
 import {FilterDropdownItemsPipe} from './pipes/filter-dropdown-items.pipe';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import {FilterDropdownItemsPipe} from './pipes/filter-dropdown-items.pipe';
     HttpClientModule,
     SafeHtmlPipe,
     LoaderComponent,
+    FooterComponent,
     UiSwitchModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
@@ -34,6 +36,7 @@ import {FilterDropdownItemsPipe} from './pipes/filter-dropdown-items.pipe';
   declarations: [
     SafeHtmlPipe,
     LoaderComponent,
+    FooterComponent,
     FilterDropdownItemsPipe,
   ],
   providers: []

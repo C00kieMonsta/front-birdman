@@ -11,6 +11,7 @@ import { reducers } from './store/global-state.reducers';
 import { environment } from '../environments/environment';
 import { HomeModule } from './home/home.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { OutModule } from './out/out.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +22,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
     AuthenticationModule.forRoot(),
     HomeModule,
     CoreModule,
+    OutModule,
     AppRoutingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
