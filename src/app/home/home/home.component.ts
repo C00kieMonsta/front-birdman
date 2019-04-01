@@ -20,6 +20,15 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.setCenter();
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
     const mousePositionControl = new ol.control.MousePosition({
       coordinateFormat: ol.coordinate.createStringXY(4),
       projection: 'EPSG:4326',
@@ -63,7 +72,11 @@ export class HomeComponent implements OnInit {
   setCenter() {
     const view = this.map.getView();
     view.setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
-    view.setZoom(8);
+    view.setZoom(15);
+  }
+
+  addMarker() {
+    const view = this.map.getView();
   }
 
 }
