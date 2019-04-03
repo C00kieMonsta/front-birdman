@@ -52,15 +52,15 @@ export class WelcomeComponent implements OnInit {
     this.isSignInView = b;
   }
 
-  onSignIn() {
-    if (this.loginForm.valid) {
-      this.auth.login(this.loginForm.get('email').value, this.loginForm.get('password').value);
-    }
-  }
-
-  onSignUp() {
-    if (this.signupForm.valid) {
-      this.auth.signUp(this.signupForm.get('email').value, this.signupForm.get('password').value);
+  onSubmitForm() {
+    if (this.isSignInView) {
+      if (this.loginForm.valid) {
+        this.auth.login(this.loginForm.get('email').value, this.loginForm.get('password').value);
+      }
+    } else {
+      if (this.signupForm.valid) {
+        this.auth.signUp(this.signupForm.get('email').value, this.signupForm.get('password').value);
+      }
     }
   }
 
