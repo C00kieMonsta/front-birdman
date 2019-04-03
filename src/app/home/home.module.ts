@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { HomeService } from './home.service';
 import { HomeRoutingModule } from './home-routing.module';
+import { mapboxToken } from '../shared/config';
 
 @NgModule({
     declarations: [
@@ -16,6 +18,9 @@ import { HomeRoutingModule } from './home-routing.module';
     imports: [
         CommonModule,
         SharedModule,
+        NgxMapboxGLModule.withConfig({
+            accessToken: mapboxToken,
+        }),
         HomeRoutingModule,
     ],
 })

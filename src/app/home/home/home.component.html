@@ -1,62 +1,61 @@
 <div class="container-fluid">
-
-  <div class="row">
-    <div class="col-12">
-      <h4 class="m-4">Ajoute tes marqeurs sur la carte</h4>
-      <form>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">Type d'oiseau</label>
-            <input type="text" class="form-control" id="inputEmail4" placeholder="Type oiseau">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputAddress">Adresse</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="Type oiseau">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputCity">Ville</label>
-            <input type="text" class="form-control" id="inputCity" placeholder="Type oiseau">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputCity">Latitude</label>
-            <input type="text" class="form-control" id="inputCity">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputCity">Longitude</label>
-            <input type="text" class="form-control" id="inputCity">
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Ajouter</button>
-      </form>
-    </div>
-  </div>
-
   <div class="row">
 
-    <!-- map and form -->
+    <!-- Settings -->
     <div class="col-12 col-md-8 col-lg-8">
+      <h4 class="m-4">Ajoute tes marqeurs sur la carte</h4>
+      <div class="row">
 
-      <h4 class="m-4">Identifie le marqueur</h4>
+        <div class="col-12">
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Type d'oiseau</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Type oiseau">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputAddress">Adresse</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Type oiseau">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputCity">Ville</label>
+                <input type="text" class="form-control" id="inputCity" placeholder="Type oiseau">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity">Latitude</label>
+                <input type="text" class="form-control" id="inputCity">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputCity">Longitude</label>
+                <input type="text" class="form-control" id="inputCity">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+          </form>
+        </div>
 
-      <!-- map -->
-      <div class="col-12">
-        <div id="map" class="map"></div>
-        <div id="mouse-position"></div>
       </div>
 
+      <div class="row">
+        <div class="col-12">
+          <mgl-map [style]="'mapbox://styles/mapbox/streets-v9'" [zoom]="[9]" [center]="[-74.50, 40]">
+            <mgl-control mglGeolocate [positionOptions]="{ enableHighAccuracy: true }" [trackUserLocation]="true">
+            </mgl-control>
+          </mgl-map>
+        </div>
+      </div>
     </div>
 
-    <!-- list of markers -->
+    <!-- Marqueurs -->
     <div class="col-12 col-md-4 col-lg-4">
-
-      <h4 class="m-4">Marqueurs Disponibles</h4>
-
+      <div class="col-12">
+        <h4 class="m-4">Marqueurs Disponibles</h4>
+      </div>
     </div>
-
   </div>
 
 </div>
