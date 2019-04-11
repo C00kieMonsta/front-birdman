@@ -10,6 +10,7 @@ import {LoaderComponent} from './loader/loader.component';
 import {SafeHtmlPipe} from './pipes/safe-html.pipe';
 import {FilterDropdownItemsPipe} from './pipes/filter-dropdown-items.pipe';
 import { FooterComponent } from './footer/footer.component';
+import { NoItemSelectedComponent } from './no-item-selected/no-item-selected.component';
 
 @NgModule({
   imports: [
@@ -32,12 +33,14 @@ import { FooterComponent } from './footer/footer.component';
     UiSwitchModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    NoItemSelectedComponent
   ],
   declarations: [
     SafeHtmlPipe,
     LoaderComponent,
     FooterComponent,
     FilterDropdownItemsPipe,
+    NoItemSelectedComponent
   ],
   providers: []
 })

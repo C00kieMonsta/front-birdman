@@ -7,40 +7,42 @@
       <div class="row">
 
         <div class="col-12">
-          <form>
+          <form [formGroup]="markerForm">
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputEmail4">Type d'oiseau</label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Type oiseau">
+                <select class="form-control" id="inputEmail4" formControlName="birdType">
+                  <option value="moineau">Moineau</option>
+                </select>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputAddress">Adresse</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="Type oiseau">
+                <input type="text" class="form-control" id="inputAddress" formControlName="address" placeholder="adresse">
               </div>
               <div class="form-group col-md-6">
                 <label for="inputCity">Ville</label>
-                <input type="text" class="form-control" id="inputCity" placeholder="Type oiseau">
+                <input type="text" class="form-control" id="inputCity" formControlName="city" placeholder="ville">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputCity">Latitude</label>
-                <input type="text" class="form-control" id="inputCity">
+                <input type="text" class="form-control" formControlName="latitude" id="inputCity">
               </div>
               <div class="form-group col-md-6">
                 <label for="inputCity">Longitude</label>
-                <input type="text" class="form-control" id="inputCity">
+                <input type="text" class="form-control" formControlName="longitude" id="inputCity">
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Ajouter</button>
+            <button type="submit" class="btn btn-outline-secondary">Ajouter</button>
           </form>
         </div>
 
       </div>
 
-      <div class="row">
+      <div class="row mt-3">
         <div class="col-12">
           <mgl-map [style]="'mapbox://styles/mapbox/streets-v9'" [zoom]="[9]" [center]="[-74.50, 40]">
             <mgl-control mglGeolocate [positionOptions]="{ enableHighAccuracy: true }" [trackUserLocation]="true">
@@ -54,6 +56,10 @@
     <div class="col-12 col-md-4 col-lg-4">
       <div class="col-12">
         <h4 class="m-4">Marqueurs Disponibles</h4>
+        <div *ngIf="markers.length === 0">
+          <app-no-item-selected [message]="'Pas de marqueurs'"></app-no-item-selected>
+        </div>
+        <div *ngIf="markers.length > 0"></div>
       </div>
     </div>
   </div>
