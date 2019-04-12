@@ -50,5 +50,13 @@ export class MapService {
             })
         );
     }
+
+    flyTo(center: mapboxgl.LngLatLike) {
+        if (this.map) {
+            this.map.flyTo({
+                center
+            });
+        }
+    }
 }
 

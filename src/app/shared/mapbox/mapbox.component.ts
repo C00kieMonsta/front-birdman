@@ -59,11 +59,20 @@ export class MapboxComponent implements OnInit {
         // adding controls
         this.map.addControl(new mapboxgl.NavigationControl());
 
-        this.map.on('click', (event) => {
+        // track user
+        // Add geolocate control to the map.
+        this.map.addControl(new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true
+        }));
+
+        /*this.map.on('dblclick', (event) => {
             const coords = [event.lngLat.lng, event.lngLat.lat];
             const newMarker = new GeoJson(coords, { message: 'New marker' });
             this.mapService.createMarker(newMarker);
-        });
+        });*/
 
         this.map.on('load', (event) => {
 
@@ -107,7 +116,7 @@ export class MapboxComponent implements OnInit {
                 'text-field': '{message}',
                 'text-size': 24,
                 'text-transform': 'uppercase',
-                'icon-image': 'rocket-15',
+                'icon-image': 'star-15',
                 'text-offset': [0, 1.5]
             },
             paint: {

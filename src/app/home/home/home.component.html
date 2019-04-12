@@ -1,6 +1,30 @@
 <div class="container-fluid">
   <div class="row">
 
+    <!-- Marqueurs -->
+    <div class="col-12 col-md-4 col-lg-4">
+      <div class="col-12">
+        <h4 class="m-4">Marqueurs Disponibles</h4>
+        <div *ngIf="(markers | async)?.length === 0">
+          <app-no-item-selected [message]="'Pas de marqueurs'"></app-no-item-selected>
+        </div>
+        <div *ngIf="(markers | async)?.length !== 0">
+          <div *ngFor="let marker of markers | async;" class="card p-3">
+            <div class="card-title">
+              <h4>
+                {{ marker?.properties.address }} - {{ marker?.properties.city }}
+              </h4>
+            </div>
+            <div class="card-body">
+              <p>Type d'oiseau: <strong>{{ marker?.properties.birdType }}</strong></p>
+              <button class="btn btn-outline-success mx-2" (click)="onFlyToMarker(marker)">Localiser</button>
+              <button class="btn btn-outline-danger" (click)="removeMarker(marker?.key)">Supprimer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Settings -->
     <div class="col-12 col-md-8 col-lg-8">
       <h4 class="m-4">Ajoute tes marqeurs sur la carte</h4>
@@ -22,6 +46,11 @@
                   <option value="moineau">Moineau</option>
                 </select>
               </div>
+              <div class="form-group col-md-6">
+                <label for="inputMessage">Message</label>
+                <input type="text" class="form-control" id="inputMessage" formControlName="message"
+                  placeholder="message...">
+              </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
@@ -34,17 +63,7 @@
                 <input type="text" class="form-control" id="inputCity" formControlName="city" placeholder="ville">
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputCity">Latitude</label>
-                <input type="text" class="form-control" formControlName="latitude" id="inputCity">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="inputCity">Longitude</label>
-                <input type="text" class="form-control" formControlName="longitude" id="inputCity">
-              </div>
-            </div>
-            <button type="submit" class="btn btn-outline-secondary">Ajouter</button>
+            <button type="submit" class="btn btn-outline-secondary" (click)="createNewMarker()">Ajouter</button>
           </form>
         </div>
 
@@ -52,25 +71,6 @@
 
     </div>
 
-    <!-- Marqueurs -->
-    <div class="col-12 col-md-4 col-lg-4">
-      <div class="col-12">
-        <h4 class="m-4">Marqueurs Disponibles</h4>
-        <div *ngIf="(markers | async)?.length === 0">
-          <app-no-item-selected [message]="'Pas de marqueurs'"></app-no-item-selected>
-        </div>
-        <div *ngIf="(markers | async)?.length !== 0">
-          <div *ngFor="let marker of markers | async;" class="card">
-            <div class="card-title">
-              {{ marker?.properties.message }}
-            </div>
-            <div class="card-body">
-              <button class="btn btn-outline-danger" (click)="removeMarker(marker?.key)">Supprimer</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
 </div>
