@@ -1,62 +1,76 @@
 <div class="container-fluid">
-
-  <div class="row">
-    <div class="col-12">
-      <h4 class="m-4">Ajoute tes marqeurs sur la carte</h4>
-      <form>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">Type d'oiseau</label>
-            <input type="text" class="form-control" id="inputEmail4" placeholder="Type oiseau">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputAddress">Adresse</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="Type oiseau">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputCity">Ville</label>
-            <input type="text" class="form-control" id="inputCity" placeholder="Type oiseau">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputCity">Latitude</label>
-            <input type="text" class="form-control" id="inputCity">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputCity">Longitude</label>
-            <input type="text" class="form-control" id="inputCity">
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Ajouter</button>
-      </form>
-    </div>
-  </div>
-
   <div class="row">
 
-    <!-- map and form -->
+    <!-- Settings -->
     <div class="col-12 col-md-8 col-lg-8">
+      <h4 class="m-4">Ajoute tes marqeurs sur la carte</h4>
 
-      <h4 class="m-4">Identifie le marqueur</h4>
+      <div class="row mt-3">
+        <div class="col-12">
+          <app-mapbox></app-mapbox>
+        </div>
+      </div>
 
-      <!-- map -->
-      <div class="col-12">
-        <div id="map" class="map"></div>
-        <div id="mouse-position"></div>
+      <div class="row mt-3">
+
+        <div class="col-12">
+          <form [formGroup]="markerForm">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Type d'oiseau</label>
+                <select class="form-control" id="inputEmail4" formControlName="birdType">
+                  <option value="moineau">Moineau</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputAddress">Adresse</label>
+                <input type="text" class="form-control" id="inputAddress" formControlName="address"
+                  placeholder="adresse">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputCity">Ville</label>
+                <input type="text" class="form-control" id="inputCity" formControlName="city" placeholder="ville">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity">Latitude</label>
+                <input type="text" class="form-control" formControlName="latitude" id="inputCity">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputCity">Longitude</label>
+                <input type="text" class="form-control" formControlName="longitude" id="inputCity">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-outline-secondary">Ajouter</button>
+          </form>
+        </div>
+
       </div>
 
     </div>
 
-    <!-- list of markers -->
+    <!-- Marqueurs -->
     <div class="col-12 col-md-4 col-lg-4">
-
-      <h4 class="m-4">Marqueurs Disponibles</h4>
-
+      <div class="col-12">
+        <h4 class="m-4">Marqueurs Disponibles</h4>
+        <div *ngIf="(markers | async)?.length === 0">
+          <app-no-item-selected [message]="'Pas de marqueurs'"></app-no-item-selected>
+        </div>
+        <div *ngIf="(markers | async)?.length !== 0">
+          <div *ngFor="let marker of markers | async;" class="card">
+            <div class="card-title">
+              {{ marker?.properties.message }}
+            </div>
+            <div class="card-body">
+              <button class="btn btn-outline-danger" (click)="removeMarker(marker?.key)">Supprimer</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
   </div>
 
 </div>

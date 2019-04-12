@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
-declare const ol: any;
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MapService } from '../../shared/map.service';
+import { Observable } from 'rxjs';
+import { IGeoJson } from 'src/app/api/api.model';
 
 @Component({
   selector: 'app-home',
@@ -9,71 +11,39 @@ declare const ol: any;
 })
 export class HomeComponent implements OnInit {
 
-  latitude: number;
-  longitude: number;
+  markerForm: FormGroup;
+  markers: Observable<IGeoJson[]>;
 
-  map: any;
+  constructor(private mapService: MapService) {
+    this.initForm();
+    this.markers = this.mapService.getMarkers();
+  }
+  
+  ngOnInit() {}
 
-  constructor() {}
-
-  ngOnInit() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.setCenter();
-      });
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-    const mousePositionControl = new ol.control.MousePosition({
-      coordinateFormat: ol.coordinate.createStringXY(4),
-      projection: 'EPSG:4326',
-      // comment the following two lines to have the mouse position
-      // be placed within the map.
-      className: 'custom-mouse-position',
-      target: document.getElementById('mouse-position'),
-      undefinedHTML: '&nbsp;'
-    });
-
-
-    this.map = new ol.Map({
-      target: 'map',
-      controls: ol.control.defaults({
-        attributionOptions: {
-          collapsible: false
-        }
-      }).extend([mousePositionControl]),
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
-        })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([73.8567, 18.5204]),
-        zoom: 8
-      })
-    });
-
-    this.map.on('click', (args) => {
-      console.log(args.coordinate);
-      const lonlat = ol.proj.transform(args.coordinate, 'EPSG:3857', 'EPSG:4326');
-      console.log(lonlat);
-
-      const lon = lonlat[0];
-      const lat = lonlat[1];
-      alert(`lat: ${lat} long: ${lon}`);
+  initForm() {
+    this.markerForm = new FormGroup({
+      'birdType': new FormControl(null, [Validators.required]),
+      'address': new FormControl(null, [Validators.required]),
+      'city': new FormControl(null, [Validators.required]),
+      'latitude': new FormControl(null, [Validators.required]),
+      'longitude': new FormControl(null, [Validators.required]),
     });
   }
 
-  setCenter() {
-    const view = this.map.getView();
-    view.setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
-    view.setZoom(15);
+  updateForm(lat: number, lon: number) {
+    this.markerForm = new FormGroup({
+      'birdType': new FormControl(null, [Validators.required]),
+      'address': new FormControl(null, [Validators.required]),
+      'city': new FormControl(false, [Validators.required]),
+      'latitude': new FormControl(lat, [Validators.required]),
+      'longitude': new FormControl(lon, [Validators.required]),
+    });
   }
 
-  addMarker() {
-    const view = this.map.getView();
+  removeMarker(key: string) {
+    this.mapService.removeMarker(key);
   }
+
 
 }
