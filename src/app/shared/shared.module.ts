@@ -11,6 +11,7 @@ import {SafeHtmlPipe} from './pipes/safe-html.pipe';
 import {FilterDropdownItemsPipe} from './pipes/filter-dropdown-items.pipe';
 import { FooterComponent } from './footer/footer.component';
 import { NoItemSelectedComponent } from './no-item-selected/no-item-selected.component';
+import { MapboxComponent } from './mapbox/mapbox.component';
 
 @NgModule({
   imports: [
@@ -33,14 +34,16 @@ import { NoItemSelectedComponent } from './no-item-selected/no-item-selected.com
     UiSwitchModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    NoItemSelectedComponent
+    NoItemSelectedComponent,
+    MapboxComponent
   ],
   declarations: [
     SafeHtmlPipe,
     LoaderComponent,
     FooterComponent,
     FilterDropdownItemsPipe,
-    NoItemSelectedComponent
+    NoItemSelectedComponent,
+    MapboxComponent
   ],
   providers: []
 })

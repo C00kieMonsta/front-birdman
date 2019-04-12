@@ -4,35 +4,19 @@ export interface BaseEntity {
     hash: string;
 }
 
-/******************************************************
- *
- *                  Internal Model
- *
- ******************************************************/
-
-export interface User extends BaseEntity {
-    firstName: string;
-    lastName: string;
-    userId: string;
-    provider: string;
-    dateJoined: Date;
-    email: string;
-    tags: string;
-    bio: string;
+export interface IGeoJson {
+    type: string;
+    geometry: IGeometry;
+    properties?: any;
+    $key?: string; 
 }
 
-/******************************************************
- *
- *                  Universal Model
- *
- ******************************************************/
+export interface IGeometry {
+    type: string;
+    coordinates: any;
+}
 
-
-/******************************************************
- *
- *                  Event Model
- *
- ******************************************************/
+export interface User {}
 
 type EventStatusType = 'danger' | 'success' | 'info' | 'warning';
 

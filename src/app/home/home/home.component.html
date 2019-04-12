@@ -19,7 +19,8 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputAddress">Adresse</label>
-                <input type="text" class="form-control" id="inputAddress" formControlName="address" placeholder="adresse">
+                <input type="text" class="form-control" id="inputAddress" formControlName="address"
+                  placeholder="adresse">
               </div>
               <div class="form-group col-md-6">
                 <label for="inputCity">Ville</label>
@@ -44,9 +45,10 @@
 
       <div class="row mt-3">
         <div class="col-12">
-          <mgl-map [style]="'mapbox://styles/mapbox/streets-v9'" [zoom]="[9]" [center]="[-74.50, 40]">
-            <mgl-control mglGeolocate [positionOptions]="{ enableHighAccuracy: true }" [trackUserLocation]="true">
-            </mgl-control>
+         <mgl-map (load)="map = $event" [style]="'mapbox://styles/mapbox/streets-v9'" [zoom]="[15]"
+            [center]="center">
+            <!-- <mgl-control mglGeolocate [positionOptions]="{ enableHighAccuracy: true }" [trackUserLocation]="true">
+            </mgl-control> -->
           </mgl-map>
         </div>
       </div>

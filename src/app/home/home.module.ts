@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { NgxMapboxGLModule, MapService } from 'ngx-mapbox-gl';
 
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
@@ -14,12 +14,14 @@ import { mapboxToken } from '../shared/config';
     ],
     providers: [
         HomeService,
+        MapService
     ],
     imports: [
         CommonModule,
         SharedModule,
         NgxMapboxGLModule.withConfig({
             accessToken: mapboxToken,
+            geocoderAccessToken: mapboxToken
         }),
         HomeRoutingModule,
     ],

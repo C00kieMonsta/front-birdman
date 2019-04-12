@@ -1,65 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MapService } from 'ngx-mapbox-gl';
 import * as mapboxgl from 'mapbox-gl';
+
+import { MapService } from '../map.service';
+import { GeoJson } from '../../api/models/geojson.model';
+import { FeatureCollection } from '../../api/models/feature-collection.model';
 import { Observable, of } from 'rxjs';
-import { GeoJson } from 'src/app/api/models/geojson.model';
-import { FeatureCollection } from 'src/app/api/models/feature-collection.model';
+
+
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-mapbox',
+  templateUrl: './mapbox.component.html',
+  styleUrls: ['./mapbox.component.sass']
 })
-export class HomeComponent implements OnInit {
+export class MapboxComponent implements OnInit {
 
-  lat: number;
-  lng: number;
-  center: any;
-  map: mapboxgl.Map;;
-  markerForm: FormGroup;
+  map: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/outdoors-v9';
+  lat = 0;
+  lng = 0;
+
   // data
   source: any;
   markers: Observable<any>;
 
-  constructor(private mapService: MapService) {
-    this.markers = of([]);
-    this.center = [-74.50, 40];
-    this.initForm();
-  }
+  constructor(private mapService: MapService) { }
 
   ngOnInit() {
+    this.markers = of([]);
     this.initializeMap();
   }
-
-  initForm() {
-    this.markerForm = new FormGroup({
-      'birdType': new FormControl(null, [Validators.required]),
-      'address': new FormControl(null, [Validators.required]),
-      'city': new FormControl(null, [Validators.required]),
-      'latitude': new FormControl(null, [Validators.required]),
-      'longitude': new FormControl(null, [Validators.required]),
-    });
-  }
-
-  updateForm(lat: number, lon: number) {
-    this.markerForm = new FormGroup({
-      'birdType': new FormControl(null, [Validators.required]),
-      'address': new FormControl(null, [Validators.required]),
-      'city': new FormControl(false, [Validators.required]),
-      'latitude': new FormControl(lat, [Validators.required]),
-      'longitude': new FormControl(lon, [Validators.required]),
-    });
-  }
-
 
   initializeMap() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
-        this.updateForm(position.coords.latitude, position.coords.longitude);
         this.map.flyTo({
           center: [this.lng, this.lat],
         })
@@ -68,7 +44,6 @@ export class HomeComponent implements OnInit {
     this.buildMap();
   }
 
-  
   buildMap() {
 
     // basic config
@@ -86,7 +61,7 @@ export class HomeComponent implements OnInit {
     this.map.on('click', (event) => {
       const coords = [event.lngLat.lng, event.lngLat.lat];
       const newMarker = new GeoJson(coords, { message: 'New marker' });
-      // this.mapService.createMarker(newMarker);
+      this.mapService.createMarker(newMarker);
     });
 
     this.map.on('load', (event) => {
@@ -128,13 +103,15 @@ export class HomeComponent implements OnInit {
 
   }
 
-  setCenter(lat, lng) {
-    const center: mapboxgl.LngLatLike = {lng, lat}
-    this.map.setCenter(center)
+  // helpers
+  removeMarker(m) {
+    this.mapService.removeMarker(m.$key);
   }
 
-  addMarker() {
-    // this.map.get
+  flyTo(data: GeoJson) {
+    this.map.flyTo({
+      center: data.geometry.coordinates
+    })
   }
 
 }
