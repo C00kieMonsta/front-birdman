@@ -19,10 +19,6 @@ import { mapboxToken } from '../shared/config';
     imports: [
         CommonModule,
         SharedModule,
-        NgxMapboxGLModule.withConfig({
-            accessToken: mapboxToken,
-            geocoderAccessToken: mapboxToken
-        }),
         HomeRoutingModule,
     ],
 })

@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -22,8 +23,9 @@ import { config } from './shared/config';
     BrowserModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers),
-    AngularFireModule.initializeApp(config),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    AngularFirestoreModule,
     AuthenticationModule.forRoot(),
     HomeModule,
     CoreModule,
