@@ -3,3 +3,9 @@
 mgl-map {
     height: 50vh;
 }
+
+.markers-container {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 80vh;
+}
