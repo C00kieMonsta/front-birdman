@@ -16,8 +16,6 @@ export interface IGeometry {
     coordinates: any;
 }
 
-export interface User {}
-
 type EventStatusType = 'danger' | 'success' | 'info' | 'warning';
 
 type EventIconType = 'check' | 'info' | 'warning' | 'highlight_off';

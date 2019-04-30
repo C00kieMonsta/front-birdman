@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MapService } from '../../shared/map.service';
-import { Observable } from 'rxjs';
+import { Observable, of, concat } from 'rxjs';
 import { IGeoJson } from 'src/app/api/api.model';
 import { GeoJson } from 'src/app/api/models/geojson.model';
+// import { concat, merge } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +20,10 @@ export class HomeComponent implements OnInit {
 
   constructor(private mapService: MapService) {
     this.initForm();
-    this.markers = this.mapService.getMarkers();
+    this.markers = of([]);
+    // this.markers = this.mapService.getMarkers();
   }
-
+  
   ngOnInit() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -29,8 +31,11 @@ export class HomeComponent implements OnInit {
         this.lng = position.coords.longitude;
       });
     }
+    this.mapService.getMarkers().subscribe(c => {
+      c.subscribe(d => console.log(d));
+    });
   }
-
+  
   initForm() {
     this.markerForm = new FormGroup({
       'birdType': new FormControl(null, [Validators.required]),
@@ -52,8 +57,9 @@ export class HomeComponent implements OnInit {
           ...this.markerForm.value,
           message: this.markerForm.get('message').value ? this.markerForm.get('message').value : this.markerForm.get('birdType').value
         });
-        this.mapService.createMarker(newMarker);
-        this.markerForm.reset();
+        this.mapService.createMarker(newMarker).subscribe(() => {
+          this.markerForm.reset();
+        });
       });
     }
   }

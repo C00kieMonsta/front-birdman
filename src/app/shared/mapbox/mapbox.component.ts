@@ -4,7 +4,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { MapService } from '../map.service';
 import { GeoJson } from '../../api/models/geojson.model';
 import { FeatureCollection } from '../../api/models/feature-collection.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IGeoJson } from '../../api/api.model';
 
 
@@ -28,7 +28,8 @@ export class MapboxComponent implements OnInit {
     constructor(private mapService: MapService) { }
 
     ngOnInit() {
-        this.markers = this.mapService.getMarkers();
+        // this.markers = this.mapService.getMarkers();
+        this.markers = of([]);
         this.initializeMap();
     }
 
@@ -100,7 +101,6 @@ export class MapboxComponent implements OnInit {
         this.source = this.map.getSource('firebase');
 
         this.markers.subscribe(ms => {
-            console.log(ms);
             let data = new FeatureCollection(ms);
             this.source.setData(data);
         });

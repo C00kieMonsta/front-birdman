@@ -1,5 +1,5 @@
 import * as UserAdminActions from './user-admin.actions';
-import { User } from '../../api/api.model';
+import { User } from 'firebase';
 
 export interface UserAdminState {
     currentUser: User;

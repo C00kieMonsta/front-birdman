@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { User } from '../../api/api.model';
+import { User } from 'firebase';
 
 export const actionTypes = {
     SET_CURRENT_USER: 'SET_CURRENT_USER',

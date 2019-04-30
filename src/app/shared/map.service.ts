@@ -1,23 +1,32 @@
 import { Injectable, EventEmitter } from "@angular/core";
 import * as mapboxgl from 'mapbox-gl';
 import { Map } from 'mapbox-gl';
-import { of, Observable } from 'rxjs';
+import { of, Observable, concat, merge, forkJoin } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { environment } from '../../environments/environment';
 import { GeoJson } from '../api/models/geojson.model';
-import { map } from 'rxjs/operators';
+import { map, filter, switchMap, combineLatest, concatMap } from 'rxjs/operators';
 import { IGeoJson } from '../api/api.model';
+import { UserAdminState } from "../store/user-admin-store/user-admin.reducers";
+import { Store } from "@ngrx/store";
+import { GlobalState } from "../store/global-state.reducers";
 
 
 @Injectable({ providedIn: 'root' })
 export class MapService {
 
-    map: Map;
-    changes: EventEmitter<any> = new EventEmitter();
+    public map: Map;
+    public changes: EventEmitter<any> = new EventEmitter();
 
-    constructor(private firestore: AngularFirestore) {
+    private userAdminState: Observable<UserAdminState>;
+
+    constructor(
+        private firestore: AngularFirestore,
+        private store: Store<GlobalState>,
+    ) {
         (mapboxgl as any).accessToken = environment.mapbox.accessToken;
+        this.userAdminState = this.store.select('userAdmin');
     }
 
     reload() {
@@ -25,30 +34,74 @@ export class MapService {
     }
 
     createMarker(m: GeoJson) {
-        return new Promise<any>((resolve, reject) => {
-            this.firestore
-                .collection('markers')
-                .add({...m})
-                .then(res => { }, err => reject(err));
-        });
-    }
-
-    removeMarker(k: string) {
-        return this.firestore.collection('markers')
-            .doc(k)
-            .delete();
-    }
-
-    getMarkers() {
-        return this.firestore.collection('markers').snapshotChanges().pipe(
-            map(markers => {
-                return markers.map((m) => {
-                    const data = m.payload.doc.data() as any;
-                    const key = m.payload.doc.id;
-                    return { key, ...data } as IGeoJson;
+        return this.userAdminState.pipe(
+            filter((state: UserAdminState) => state.currentUser !== null),
+            switchMap((state: UserAdminState) => {
+                const markersRef = this.firestore.collection(`users/${state.currentUser.uid}/markers`);
+                return markersRef.add({ ...m }).then(res => {
+                    // console.log(res);
                 });
             })
         );
+    }
+
+    removeMarker(k: string) {
+        return this.userAdminState.pipe(
+            filter((state: UserAdminState) => state.currentUser !== null),
+            switchMap((state: UserAdminState) => {
+                const markersRef = this.firestore.collection(`users/${state.currentUser.uid}/markers`);
+                return markersRef.doc(k).delete();
+            })
+        );
+    }
+
+    getMarkers() {
+        console.log('Calling get markers');
+        const userRef = this.firestore.collection("users");
+
+        return userRef.snapshotChanges().pipe(
+            map((actions) => {
+                return actions.map(a => {
+                    const data = a.payload.doc.data();
+                    const id = a.payload.doc.id;
+                    return { id, ...data };
+                });
+            }),
+            map((snapshots) => {
+                const markers = snapshots.map((doc) => {
+                    return userRef.doc(doc.id).collection('markers').valueChanges().pipe(
+                        map(ms => {
+                            return {
+                                [`${doc.id}`]: ms
+                            }
+                        })
+                    );
+                });
+                return markers;
+            }),
+            combineLatest((obs) => {
+                return concat(obs);
+            }),
+            concatMap(v => v)
+        );
+
+
+        // return userRef.snapshotChanges()
+        //     .pipe(
+        //         map(actions => {
+        //             return actions.map(a => {
+        //                 const data = a.payload.doc.data();
+        //                 const id = a.payload.doc.id;
+        //                 return { id, ...data };
+        //             });
+        //         })
+        //     ).subscribe((querySnapshot) => {
+        //         querySnapshot.forEach((doc) => {
+        //             userRef.doc(doc.id).collection('markers').valueChanges().subscribe(r => {
+        //                 console.log(r)
+        //             })
+        //         });
+        //     });
     }
 
     flyTo(center: mapboxgl.LngLatLike) {
