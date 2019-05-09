@@ -5,11 +5,8 @@
     <div class="col-12 col-md-4 col-lg-4 markers-container">
       <div class="col-12">
         <h4 class="m-4">Marqueurs Disponibles</h4>
-        <div *ngIf="(markers | async)?.length === 0">
-          <app-no-item-selected [message]="'Pas de marqueurs'"></app-no-item-selected>
-        </div>
-        <div *ngIf="(markers | async)?.length !== 0">
-          <div *ngFor="let marker of markers | async;" class="card p-3">
+        <div *ngFor="let item of markersDict | keyvalue">
+          <div *ngFor="let marker of item.value" class="card p-3">
             <div class="card-title">
               <h4>
                 {{ marker?.properties.address }} - {{ marker?.properties.city }}
@@ -18,7 +15,7 @@
             <div class="card-body">
               <p>Type d'oiseau: <strong>{{ marker?.properties.birdType }}</strong></p>
               <button class="btn btn-outline-success mx-2" (click)="onFlyToMarker(marker)">Localiser</button>
-              <button class="btn btn-outline-danger" (click)="removeMarker(marker?.key)">Supprimer</button>
+              <button *ngIf="(currentUser | async)?.uid === item.key" class="btn btn-outline-danger" (click)="removeMarker(marker?.key)">Supprimer</button>
             </div>
           </div>
         </div>

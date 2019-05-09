@@ -4,7 +4,6 @@ import * as mapboxgl from 'mapbox-gl';
 import { MapService } from '../map.service';
 import { GeoJson } from '../../api/models/geojson.model';
 import { FeatureCollection } from '../../api/models/feature-collection.model';
-import { Observable, of } from 'rxjs';
 import { IGeoJson } from '../../api/api.model';
 
 
@@ -17,19 +16,19 @@ import { IGeoJson } from '../../api/api.model';
 export class MapboxComponent implements OnInit {
 
     map: mapboxgl.Map;
+    markers: IGeoJson[];
     style = 'mapbox://styles/mapbox/outdoors-v9';
     lat = 0;
     lng = 0;
 
     // data
     source: any;
-    markers: Observable<IGeoJson[]>;
 
-    constructor(private mapService: MapService) { }
+    constructor(private mapService: MapService) {
+        this.markers = [];
+    }
 
     ngOnInit() {
-        // this.markers = this.mapService.getMarkers();
-        this.markers = of([]);
         this.initializeMap();
     }
 
@@ -100,10 +99,14 @@ export class MapboxComponent implements OnInit {
 
         this.source = this.map.getSource('firebase');
 
-        this.markers.subscribe(ms => {
-            let data = new FeatureCollection(ms);
-            this.source.setData(data);
+        this.mapService.getMarkers().subscribe(c => {
+            Object.keys(c).forEach((key: string) => {
+                this.markers.push(...c[key]);
+                let data = new FeatureCollection(this.markers);
+                this.source.setData(data);
+            });
         });
+
     }
 
     setMarkerStyling() {

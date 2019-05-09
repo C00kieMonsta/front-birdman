@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { User } from 'firebase';
+import { Observable, of } from 'rxjs';
+
 import { MapService } from '../../shared/map.service';
-import { Observable, of, concat } from 'rxjs';
-import { IGeoJson } from 'src/app/api/api.model';
-import { GeoJson } from 'src/app/api/models/geojson.model';
-// import { concat, merge } from 'rxjs/operators';
+import { IGeoJson } from '../../api/api.model';
+import { GeoJson } from '../../api/models/geojson.model';
+import { HomeService } from '../home.service';
 
 @Component({
   selector: 'app-home',
@@ -15,15 +17,21 @@ export class HomeComponent implements OnInit {
 
   markerForm: FormGroup;
   markers: Observable<IGeoJson[]>;
+  markersDict: { [userId: string]: IGeoJson[] };
+  currentUser: Observable<User>;
   lat: number;
   lng: number;
 
-  constructor(private mapService: MapService) {
+  constructor(
+    private mapService: MapService,
+    private homeService: HomeService
+  ) {
     this.initForm();
     this.markers = of([]);
-    // this.markers = this.mapService.getMarkers();
+    this.markersDict = {};
+    this.currentUser = this.homeService.getCurrentUser$();
   }
-  
+
   ngOnInit() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -31,11 +39,15 @@ export class HomeComponent implements OnInit {
         this.lng = position.coords.longitude;
       });
     }
+  
     this.mapService.getMarkers().subscribe(c => {
-      c.subscribe(d => console.log(d));
+      Object.keys(c).forEach((key: string) => {
+        this.markersDict[key] = this.markersDict[key] || [];
+        this.markersDict[key] = c[key];
+      }); 
     });
   }
-  
+
   initForm() {
     this.markerForm = new FormGroup({
       'birdType': new FormControl(null, [Validators.required]),
@@ -46,7 +58,9 @@ export class HomeComponent implements OnInit {
   }
 
   removeMarker(key: string) {
-    this.mapService.removeMarker(key);
+    this.mapService.removeMarker(key).subscribe(() => {
+      // success
+    });
   }
 
   createNewMarker() {
