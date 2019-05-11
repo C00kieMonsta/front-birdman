@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { UIService } from 'src/app/shared/ui.service';
-import { AuthenticationService } from 'src/app/authentication/authentication.service';
+import { UIService } from '../../../../shared/ui.service';
+import { AuthenticationService } from '../../../../authentication/authentication.service';
 
 @Component({
   selector: 'app-topbar',

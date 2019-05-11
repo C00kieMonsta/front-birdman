@@ -19,8 +19,7 @@ export class HomeComponent implements OnInit {
   markers: Observable<IGeoJson[]>;
   markersDict: { [userId: string]: IGeoJson[] };
   currentUser: Observable<User>;
-  lat: number;
-  lng: number;
+  coordinates: Observable<number[]>;
 
   constructor(
     private mapService: MapService,
@@ -30,16 +29,10 @@ export class HomeComponent implements OnInit {
     this.markers = of([]);
     this.markersDict = {};
     this.currentUser = this.homeService.getCurrentUser$();
+    this.coordinates = this.mapService._tappedCoordinates;
   }
 
   ngOnInit() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-      });
-    }
-  
     this.mapService.getMarkers().subscribe(c => {
       Object.keys(c).forEach((key: string) => {
         this.markersDict[key] = this.markersDict[key] || [];
@@ -65,8 +58,7 @@ export class HomeComponent implements OnInit {
 
   createNewMarker() {
     if (this.markerForm.valid) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const coords = [position.coords.longitude, position.coords.latitude];
+      this.coordinates.subscribe((coords) => {
         const newMarker = new GeoJson(coords, {
           ...this.markerForm.value,
           message: this.markerForm.get('message').value ? this.markerForm.get('message').value : this.markerForm.get('birdType').value

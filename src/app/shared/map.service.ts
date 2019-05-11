@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from "@angular/core";
 import * as mapboxgl from 'mapbox-gl';
 import { Map } from 'mapbox-gl';
-import { of, Observable, concat } from 'rxjs';
+import { of, Observable, concat, Subject, BehaviorSubject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { environment } from '../../environments/environment';
@@ -18,8 +18,13 @@ export class MapService {
 
     public map: Map;
     public changes: EventEmitter<any> = new EventEmitter();
+    public _tappedCoordinates = new BehaviorSubject<number[]>(null);
 
     private userAdminState: Observable<UserAdminState>;
+
+    get tappedCoordinates() {
+        return this._tappedCoordinates.asObservable();
+    }
 
     constructor(
         private firestore: AngularFirestore,
@@ -27,6 +32,10 @@ export class MapService {
     ) {
         (mapboxgl as any).accessToken = environment.mapbox.accessToken;
         this.userAdminState = this.store.select('userAdmin');
+        navigator.geolocation.getCurrentPosition((position) => {
+            const coords = [position.coords.longitude, position.coords.latitude];
+            this._tappedCoordinates.next(coords);
+          });
     }
 
     reload() {
@@ -95,6 +104,11 @@ export class MapService {
                 center
             });
         }
+    }
+
+    updatedTappedCoordinates(coord: number[]) {
+        // 0: lon 1: lat
+        this._tappedCoordinates.next(coord);
     }
 }
 

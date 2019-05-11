@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
+import * as MapboxGeocoder from 'mapbox-gl-geocoder';
 
 import { MapService } from '../map.service';
 import { GeoJson } from '../../api/models/geojson.model';
@@ -17,7 +18,7 @@ export class MapboxComponent implements OnInit {
 
     map: mapboxgl.Map;
     markers: IGeoJson[];
-    style = 'mapbox://styles/mapbox/outdoors-v9';
+    style = 'mapbox://styles/mapbox/streets-v11';
     lat = 0;
     lng = 0;
 
@@ -56,6 +57,11 @@ export class MapboxComponent implements OnInit {
         });
         this.mapService.map = this.map;
 
+        this.map.addControl(new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+        }));
+
         // adding controls
         this.map.addControl(new mapboxgl.NavigationControl());
 
@@ -68,11 +74,10 @@ export class MapboxComponent implements OnInit {
             trackUserLocation: true
         }));
 
-        /*this.map.on('dblclick', (event) => {
+        this.map.on('dblclick', (event) => {
             const coords = [event.lngLat.lng, event.lngLat.lat];
-            const newMarker = new GeoJson(coords, { message: 'New marker' });
-            this.mapService.createMarker(newMarker);
-        });*/
+            this.mapService.updatedTappedCoordinates(coords);
+        });
 
         this.map.on('load', (event) => {
 
@@ -84,7 +89,6 @@ export class MapboxComponent implements OnInit {
             this.setMarkerStyling();
 
         });
-
     }
 
     setSourceData() {
@@ -116,11 +120,11 @@ export class MapboxComponent implements OnInit {
             source: 'firebase',
             type: 'symbol',
             layout: {
-                'text-field': '{message}',
-                'text-size': 24,
-                'text-transform': 'uppercase',
-                'icon-image': 'star-15',
-                'text-offset': [0, 1.5]
+                // 'text-field': '{message}',
+                // 'text-size': 24,
+                // 'text-transform': 'uppercase',
+                'icon-image': 'rocket-15',
+                // 'text-offset': [0, 1.5]
             },
             paint: {
                 'text-color': '#f16624',

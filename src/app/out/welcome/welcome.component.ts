@@ -4,8 +4,7 @@ import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '../../authentication/authentication.service';
 import { tabletsWidth, handHeldsWidth } from '../../shared/globals';
-import { environment } from '../../../environments/environment';
-import { UIService } from 'src/app/shared/ui.service';
+import { UIService } from '../../shared/ui.service';
 
 @Component({
   selector: 'app-welcome',
