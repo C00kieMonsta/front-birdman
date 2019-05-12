@@ -15,7 +15,7 @@ import { IGeoJson } from '../../api/api.model';
     styleUrls: ['./mapbox.component.sass']
 })
 export class MapboxComponent implements OnInit {
-    
+
     @Output() triggerModal = new EventEmitter<any>();
 
     map: mapboxgl.Map;
@@ -25,6 +25,7 @@ export class MapboxComponent implements OnInit {
     lng: number;
     timeLeft: number;
     isMoving: boolean;
+    interval;
 
     // data
     source: any;
@@ -35,7 +36,7 @@ export class MapboxComponent implements OnInit {
         this.style = 'mapbox://styles/mapbox/streets-v11';
         this.lat = 0;
         this.lng = 0;
-        this.timeLeft = 1.5;
+        this.timeLeft = 2;
     }
 
     ngOnInit() {
@@ -84,59 +85,52 @@ export class MapboxComponent implements OnInit {
         }));
 
         this.map.on('touchstart', (event) => {
-            setInterval(() => {
-                if (this.timeLeft > 0) {
-                    this.timeLeft -= 0.5;
-                }
-            }, 500);
-        });
-
-        this.map.on('touchmove', () => {
-            this.isMoving = true;
-        });
-
-        this.map.on('touchend', (event) => {
-            if (this.timeLeft === 0 && !this.isMoving) {
-                const coords = [event.lngLat.lng, event.lngLat.lat];
-                this.mapService.updatedTappedCoordinates(coords);
-                this.triggerModal.emit(coords);
-            }
-            this.timeLeft = 1.5;
-            this.isMoving = false;
+            this.startTimer();
         });
 
         this.map.on('mousedown', (event) => {
-            setInterval(() => {
-                if (this.timeLeft > 0) {
-                    this.timeLeft -= 0.5;
-                }
-            }, 500);
+            this.startTimer();
         });
 
-        this.map.on('mousemove', () => {
-            this.isMoving = true;
+        this.map.on('move', () => {
+            clearInterval(this.interval);
+            this.timeLeft = 2;
+        });
+
+        this.map.on('touchend', (event) => {
+            this.updateCoords(event);
         });
 
         this.map.on('mouseup', (event) => {
-            if (this.timeLeft === 0 && !this.isMoving) {
-                const coords = [event.lngLat.lng, event.lngLat.lat];
-                this.mapService.updatedTappedCoordinates(coords);
-                this.triggerModal.emit(coords);
-            }
-            this.timeLeft = 1.5;
-            this.isMoving = false;
+            this.updateCoords(event);
         });
 
         this.map.on('load', (event) => {
 
             // disable scroll
             this.mapService.map.scrollZoom.disable();
-
             this.setSourceData();
-
             this.setMarkerStyling();
 
         });
+    }
+
+    startTimer() {
+        this.interval = setInterval(() => {
+            if (this.timeLeft > 0) {
+                this.timeLeft--;
+            }
+        }, 1000);
+    }
+
+    updateCoords(event) {
+        if (this.timeLeft === 0) {
+            const coords = [event.lngLat.lng, event.lngLat.lat];
+            this.mapService.updatedTappedCoordinates(coords);
+            this.triggerModal.emit(coords);
+        }
+        clearInterval(this.interval);
+        this.timeLeft = 2;
     }
 
     setSourceData() {
