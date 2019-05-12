@@ -18,7 +18,6 @@
     "module": "es2015",
     "baseUrl": "./",
     "paths": {
-        "*": ["types/*"],
       "jszip": [
         "../node_modules/jszip/dist/jszip.min.js"
       ]
