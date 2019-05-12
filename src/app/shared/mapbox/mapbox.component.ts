@@ -26,6 +26,7 @@ export class MapboxComponent implements OnInit {
     timeLeft: number;
     isMoving: boolean;
     interval;
+    timeout;
 
     // data
     source: any;
@@ -36,7 +37,7 @@ export class MapboxComponent implements OnInit {
         this.style = 'mapbox://styles/mapbox/streets-v11';
         this.lat = 0;
         this.lng = 0;
-        this.timeLeft = 2;
+        this.timeLeft = 1;
     }
 
     ngOnInit() {
@@ -85,24 +86,23 @@ export class MapboxComponent implements OnInit {
         }));
 
         this.map.on('touchstart', (event) => {
-            this.startTimer();
+            this.updateCoords(event);
         });
 
         this.map.on('mousedown', (event) => {
-            this.startTimer();
+            this.updateCoords(event);
         });
 
         this.map.on('move', () => {
-            clearInterval(this.interval);
-            this.timeLeft = 2;
+            this.resetTimer();
         });
 
         this.map.on('touchend', (event) => {
-            this.updateCoords(event);
+            this.resetTimer();
         });
 
         this.map.on('mouseup', (event) => {
-            this.updateCoords(event);
+            this.resetTimer();
         });
 
         this.map.on('load', (event) => {
@@ -115,22 +115,16 @@ export class MapboxComponent implements OnInit {
         });
     }
 
-    startTimer() {
-        this.interval = setInterval(() => {
-            if (this.timeLeft > 0) {
-                this.timeLeft--;
-            }
-        }, 1000);
-    }
-
     updateCoords(event) {
-        if (this.timeLeft === 0) {
+        this.timeout = setTimeout(() => {
             const coords = [event.lngLat.lng, event.lngLat.lat];
             this.mapService.updatedTappedCoordinates(coords);
             this.triggerModal.emit(coords);
-        }
-        clearInterval(this.interval);
-        this.timeLeft = 2;
+        }, 1000);
+    }
+
+    resetTimer() {
+        clearTimeout(this.timeout);
     }
 
     setSourceData() {
