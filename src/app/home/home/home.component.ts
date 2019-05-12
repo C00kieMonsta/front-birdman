@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from 'firebase';
-import { Observable, of } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 
 import { MapService } from '../../shared/map.service';
 import { IGeoJson } from '../../api/api.model';
@@ -47,10 +47,10 @@ export class HomeComponent implements OnInit {
 
     initForm() {
         this.markerForm = new FormGroup({
-            'birdType': new FormControl(null, [Validators.required]),
-            'message': new FormControl(null),
-            'address': new FormControl(null, [Validators.required]),
-            'city': new FormControl(null, [Validators.required]),
+            birdType: new FormControl(null, [Validators.required]),
+            message: new FormControl(null),
+            address: new FormControl(null, [Validators.required]),
+            city: new FormControl(null, [Validators.required]),
         });
     }
 
@@ -62,10 +62,15 @@ export class HomeComponent implements OnInit {
 
     createNewMarker() {
         if (this.markerForm.valid) {
-            this.coordinates.subscribe((coords) => {
-                const newMarker = new GeoJson(coords, {
+            const combined = combineLatest(
+                this.coordinates,
+                this.currentUser,
+            );
+            combined.subscribe((states: [number[], User]) => {
+                const newMarker = new GeoJson(states[0], {
                     ...this.markerForm.value,
-                    message: this.markerForm.get('message').value ? this.markerForm.get('message').value : this.markerForm.get('birdType').value
+                    message: this.markerForm.get('message').value ? this.markerForm.get('message').value : this.markerForm.get('birdType').value,
+                    author: states[1].email,
                 });
                 this.mapService.createMarker(newMarker).subscribe(() => {
                     this.markerForm.reset();
@@ -79,8 +84,8 @@ export class HomeComponent implements OnInit {
         this.mapService.flyTo(m.geometry.coordinates);
     }
 
-    triggerModal(_event) {
-        document.getElementById("openModalButton").click();
+    triggerModal(event) {
+        document.getElementById('openModalButton').click();
     }
 
 }

@@ -50,7 +50,7 @@ export class MapboxComponent implements OnInit {
                 this.lng = position.coords.longitude;
                 this.map.flyTo({
                     center: [this.lng, this.lat],
-                })
+                });
             });
         }
         this.buildMap();
@@ -69,7 +69,7 @@ export class MapboxComponent implements OnInit {
 
         this.map.addControl(new MapboxGeocoder({
             accessToken: mapboxgl.accessToken,
-            mapboxgl: mapboxgl
+            mapboxgl,
         }));
 
         // adding controls
@@ -148,10 +148,28 @@ export class MapboxComponent implements OnInit {
         this.mapService.getMarkers().subscribe(c => {
             Object.keys(c).forEach((key: string) => {
                 this.markers.push(...c[key]);
-                let data = new FeatureCollection(this.markers);
+                const data = new FeatureCollection(this.markers);
                 this.source.setData(data);
+                data.features.forEach((marker) => {
+                    // create a DOM element for the marker
+                    const el = document.createElement('div');
+                    el.className = 'marker';
+                    el.style.backgroundImage = 'url(assets/brand/icon.svg)';
+                    el.style.width = '30px';
+                    el.style.height = '30px';
+
+                    el.addEventListener('click', () => {
+                        window.alert(marker.properties.message);
+                    });
+
+                    // add marker to map
+                    new mapboxgl.Marker(el)
+                        .setLngLat(marker.geometry.coordinates)
+                        .addTo(this.map);
+                });
             });
         });
+
 
     }
 
@@ -163,7 +181,7 @@ export class MapboxComponent implements OnInit {
             type: 'symbol',
             layout: {
                 // 'text-field': '{message}',
-                // 'text-size': 24,
+                'text-size': 24,
                 // 'text-transform': 'uppercase',
                 'icon-image': 'rocket-15',
                 // 'text-offset': [0, 1.5]
@@ -184,7 +202,7 @@ export class MapboxComponent implements OnInit {
     flyTo(data: GeoJson) {
         this.map.flyTo({
             center: data.geometry.coordinates
-        })
+        });
     }
 
 }
