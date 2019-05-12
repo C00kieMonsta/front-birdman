@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import * as MapboxGeocoder from 'mapbox-gl-geocoder';
 
@@ -15,18 +15,27 @@ import { IGeoJson } from '../../api/api.model';
     styleUrls: ['./mapbox.component.sass']
 })
 export class MapboxComponent implements OnInit {
+    
+    @Output() triggerModal = new EventEmitter<any>();
 
     map: mapboxgl.Map;
     markers: IGeoJson[];
-    style = 'mapbox://styles/mapbox/streets-v11';
-    lat = 0;
-    lng = 0;
+    style: string;
+    lat: number;
+    lng: number;
+    timeLeft: number;
+    isMoving: boolean;
 
     // data
     source: any;
 
     constructor(private mapService: MapService) {
         this.markers = [];
+        this.isMoving = false;
+        this.style = 'mapbox://styles/mapbox/streets-v11';
+        this.lat = 0;
+        this.lng = 0;
+        this.timeLeft = 1.5;
     }
 
     ngOnInit() {
@@ -74,9 +83,48 @@ export class MapboxComponent implements OnInit {
             trackUserLocation: true
         }));
 
-        this.map.on('dblclick', (event) => {
-            const coords = [event.lngLat.lng, event.lngLat.lat];
-            this.mapService.updatedTappedCoordinates(coords);
+        this.map.on('touchstart', (event) => {
+            setInterval(() => {
+                if (this.timeLeft > 0) {
+                    this.timeLeft -= 0.5;
+                }
+            }, 500);
+        });
+
+        this.map.on('touchmove', () => {
+            this.isMoving = true;
+        });
+
+        this.map.on('touchend', (event) => {
+            if (this.timeLeft === 0 && !this.isMoving) {
+                const coords = [event.lngLat.lng, event.lngLat.lat];
+                this.mapService.updatedTappedCoordinates(coords);
+                this.triggerModal.emit(coords);
+            }
+            this.timeLeft = 1.5;
+            this.isMoving = false;
+        });
+
+        this.map.on('mousedown', (event) => {
+            setInterval(() => {
+                if (this.timeLeft > 0) {
+                    this.timeLeft -= 0.5;
+                }
+            }, 500);
+        });
+
+        this.map.on('mousemove', () => {
+            this.isMoving = true;
+        });
+
+        this.map.on('mouseup', (event) => {
+            if (this.timeLeft === 0 && !this.isMoving) {
+                const coords = [event.lngLat.lng, event.lngLat.lat];
+                this.mapService.updatedTappedCoordinates(coords);
+                this.triggerModal.emit(coords);
+            }
+            this.timeLeft = 1.5;
+            this.isMoving = false;
         });
 
         this.map.on('load', (event) => {

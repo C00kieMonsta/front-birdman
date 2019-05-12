@@ -4,10 +4,11 @@
     <!-- Marqueurs -->
     <div class="col-12 col-md-4 col-lg-4">
       <div class="col-12">
-        <h4 class="m-4">Marqueurs Disponibles</h4>
-        <div class="markers-container">
+        <h4 class="mt-4 mb-2">Marqueurs Disponibles</h4>
+        <small class="text-muted">&#9432; Ci-dessous sont tous tes marqueurs et ceux de la communauté</small>
+        <div class="markers-container mt-4">
           <div *ngFor="let item of markersDict | keyvalue">
-  
+
             <div *ngFor="let marker of item.value" class="card mb-2" style="min-width: 18rem;">
               <div class="card-body">
                 <h5 class="card-title">{{ marker?.properties.address }}</h5>
@@ -19,7 +20,7 @@
                   (click)="removeMarker(marker?.key)">Supprimer</button>
               </div>
             </div>
-  
+
             <!-- <div *ngFor="let marker of item.value" class="card p-2 mb-2">
               <div class="card-title">
                 <h4>
@@ -40,64 +41,67 @@
 
     <!-- Settings -->
     <div class="col-12 col-md-8 col-lg-8">
-      <h4 class="m-4">Ajoute tes marqeurs sur la carte</h4>
+      <h4 class="mt-4">Ajoute tes marqeurs sur la carte</h4>
+      <small class="text-muted">&#9432; Appuie longuement sur la map pour créer un nouveau marqueur</small>
 
-      <div class="form-inline">
-        <div class="form-group col-md-6">
-          <label for="static1"><strong>Longitude</strong></label>
-          <input type="text" readonly class="form-control-plaintext" id="static1"
-            [value]="(coordinates | async) ? (coordinates | async)[0] : ''">
-        </div>
-        <div class="form-group col-md-6">
-          <label for="static2"><strong>Latitude</strong></label>
-          <input type="text" readonly class="form-control-plaintext" id="static2"
-            [value]="(coordinates | async) ? (coordinates | async)[1] : ''">
-        </div>
-      </div>
-
-
-      <div class="row mt-3">
+      <div class="row mt-4">
         <div class="col-12">
-          <app-mapbox></app-mapbox>
+          <app-mapbox (triggerModal)="triggerModal($event)"></app-mapbox>
         </div>
-      </div>
-
-      <div class="row mt-3">
-
-        <div class="col-12">
-          <form [formGroup]="markerForm">
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputEmail4">Type d'oiseau</label>
-                <select class="form-control" id="inputEmail4" formControlName="birdType">
-                  <option value="moineau">Moineau</option>
-                </select>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="inputMessage">Message</label>
-                <input type="text" class="form-control" id="inputMessage" formControlName="message"
-                  placeholder="message...">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="inputAddress">Adresse</label>
-                <input type="text" class="form-control" id="inputAddress" formControlName="address"
-                  placeholder="adresse">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="inputCity">Ville</label>
-                <input type="text" class="form-control" id="inputCity" formControlName="city" placeholder="ville">
-              </div>
-            </div>
-            <button type="submit" class="btn btn-outline-secondary" (click)="createNewMarker()">Ajouter</button>
-          </form>
-        </div>
-
+        <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#newMarkerModal">Open
+          Modal</button>
       </div>
 
     </div>
 
   </div>
 
+</div>
+
+
+<!-- Modal for new Marker -->
+<div class="modal fade" id="newMarkerModal" tabindex="-1" role="dialog" aria-labelledby="newMarkerModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newMarkerModalLabel">New Tile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="markerForm">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Type d'oiseau</label>
+              <select class="form-control" id="inputEmail4" formControlName="birdType">
+                <option value="moineau">Moineau</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputMessage">Message</label>
+              <input type="text" class="form-control" id="inputMessage" formControlName="message"
+                placeholder="message...">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputAddress">Adresse</label>
+              <input type="text" class="form-control" id="inputAddress" formControlName="address" placeholder="adresse">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputCity">Ville</label>
+              <input type="text" class="form-control" id="inputCity" formControlName="city" placeholder="ville">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button role="button" class="btn btn-sm btn-secondary" id="newMarkerModalCancel"
+          data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-outline-success" (click)="createNewMarker()">Ajouter</button>
+      </div>
+    </div>
+  </div>
 </div>
