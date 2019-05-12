@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Router } from "@angular/router";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { User } from 'firebase';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { User } from 'firebase';
+
 import { GlobalState } from '../store/global-state.reducers';
 import { SetCurrentUser } from '../store/user-admin-store/user-admin.actions';
-import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -27,7 +28,7 @@ export class AuthenticationService {
             if (user) {
                 this.user = user;
                 localStorage.setItem('user', JSON.stringify(this.user));
-                this.store.dispatch(new SetCurrentUser(user))
+                this.store.dispatch(new SetCurrentUser(user));
             } else {
                 localStorage.setItem('user', null);
             }
@@ -38,9 +39,11 @@ export class AuthenticationService {
         try {
             this.afAuth.auth.signInWithEmailAndPassword(email, password).then(u => {
                 this.router.navigate(['/'], {replaceUrl: true});
+            }).catch((err) => {
+                alert('Wrong credentials');
             });
         } catch (e) {
-            alert("Error!" + e.message);
+            alert('Error!' + e.message);
         }
     }
 
@@ -49,9 +52,11 @@ export class AuthenticationService {
             this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(u => {
                 this.firestore.collection('users').doc(u.user.uid).set({ email });
                 this.router.navigate(['/'], {replaceUrl: true});
+            }).catch((err) => {
+                alert('Soemthing went wrong!');
             });
         } catch (e) {
-            alert("Error!" + e.message);
+            alert('Error!' + e.message);
         }
     }
 

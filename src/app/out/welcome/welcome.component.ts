@@ -7,65 +7,69 @@ import { tabletsWidth, handHeldsWidth } from '../../shared/globals';
 import { UIService } from '../../shared/ui.service';
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss'],
+    selector: 'app-welcome',
+    templateUrl: './welcome.component.html',
+    styleUrls: ['./welcome.component.scss'],
 })
 export class WelcomeComponent implements OnInit {
 
-  version: string;
-  signupForm: FormGroup;
-  loginForm: FormGroup;
-  isSignInView = true;
-  isTabletSize: Observable<boolean>;
-  isPhoneSize: Observable<boolean>;
+    version: string;
+    signupForm: FormGroup;
+    loginForm: FormGroup;
+    isSignInView = true;
+    isTabletSize: Observable<boolean>;
+    isPhoneSize: Observable<boolean>;
 
-  constructor(
-    private auth: AuthenticationService,
-    private uiService: UIService
-  ) {
-    this.version = 'r';
-    // this.version = environment.version;
-  }
-
-  ngOnInit() {
-    this.uiService.toggleTabletScreenSize(window.innerWidth <= tabletsWidth);
-    this.uiService.togglePhoneScreenSize(window.innerWidth <= handHeldsWidth);
-    this.isTabletSize = this.uiService.isTabletSize$();
-    this.isPhoneSize = this.uiService.isPhoneSize$();
-
-    this.signupForm = new FormGroup({
-      'email': new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(150)]),
-      'password': new FormControl(null, [Validators.required, Validators.minLength(6)]),
-      'termsAndConditions': new FormControl(false, [Validators.pattern('true')])
-    });
-
-    this.loginForm = new FormGroup({
-      'email': new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(150)]),
-      'password': new FormControl(null, [Validators.required, Validators.minLength(6)]),
-    });
-
-  }
-
-  switchLogin(b: boolean) {
-    this.isSignInView = b;
-  }
-
-  onSubmitForm() {
-    if (this.isSignInView) {
-      if (this.loginForm.valid) {
-        this.auth.login(this.loginForm.get('email').value, this.loginForm.get('password').value);
-      }
-    } else {
-      if (this.signupForm.valid) {
-        this.auth.signUp(this.signupForm.get('email').value, this.signupForm.get('password').value);
-      }
+    constructor(
+        private auth: AuthenticationService,
+        private uiService: UIService
+    ) {
+        this.version = 'r';
+        // this.version = environment.version;
     }
-  }
 
-  onResize(_event) {
-    this.uiService.toggleTabletScreenSize(window.innerWidth <= tabletsWidth);
-    this.uiService.togglePhoneScreenSize(window.innerWidth <= handHeldsWidth);
-  }
+    ngOnInit() {
+        this.uiService.toggleTabletScreenSize(window.innerWidth <= tabletsWidth);
+        this.uiService.togglePhoneScreenSize(window.innerWidth <= handHeldsWidth);
+        this.isTabletSize = this.uiService.isTabletSize$();
+        this.isPhoneSize = this.uiService.isPhoneSize$();
+
+        this.signupForm = new FormGroup({
+            email: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(150)]),
+            password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+            termsAndConditions: new FormControl(false, [Validators.pattern('true')])
+        });
+
+        this.loginForm = new FormGroup({
+            email: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(150)]),
+            password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+        });
+
+    }
+
+    switchLogin(b: boolean) {
+        this.isSignInView = b;
+    }
+
+    onSubmitForm() {
+        if (this.isSignInView) {
+            if (this.loginForm.valid) {
+                this.auth.login(this.loginForm.get('email').value, this.loginForm.get('password').value);
+            } else {
+                alert('Credentials are invalid');
+            }
+        } else {
+            if (this.signupForm.valid) {
+                this.auth.signUp(this.signupForm.get('email').value, this.signupForm.get('password').value);
+            } else {
+                alert('Credentials are invalid');
+            }
+        }
+    }
+
+    onResize(event) {
+        this.uiService.toggleTabletScreenSize(window.innerWidth <= tabletsWidth);
+        this.uiService.togglePhoneScreenSize(window.innerWidth <= handHeldsWidth);
+    }
 
 }
