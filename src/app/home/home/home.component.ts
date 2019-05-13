@@ -49,8 +49,8 @@ export class HomeComponent implements OnInit {
         this.markerForm = new FormGroup({
             birdType: new FormControl(null, [Validators.required]),
             message: new FormControl(null),
-            address: new FormControl(null, [Validators.required]),
-            city: new FormControl(null, [Validators.required]),
+            // address: new FormControl(null, [Validators.required]),
+            // city: new FormControl(null, [Validators.required]),
         });
     }
 

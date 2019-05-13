@@ -97,6 +97,14 @@ export class MapboxComponent implements OnInit {
             this.resetTimer();
         });
 
+        this.map.on('pitch', (event) => {
+            this.resetTimer();
+        });
+
+        this.map.on('zoom', (event) => {
+            this.resetTimer();
+        });
+
         this.map.on('touchend', (event) => {
             this.resetTimer();
         });
