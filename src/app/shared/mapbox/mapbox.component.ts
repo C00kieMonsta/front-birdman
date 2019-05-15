@@ -86,7 +86,9 @@ export class MapboxComponent implements OnInit {
         }));
 
         this.map.on('touchstart', (event) => {
-            this.updateCoords(event);
+            if (event.touches.length === 1) {
+                this.updateCoords(event);
+            }
         });
 
         this.map.on('mousedown', (event) => {
