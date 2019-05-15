@@ -61,7 +61,7 @@
             <div class="form-group col-md-6">
               <label for="inputEmail4">Type d'oiseau</label>
               <select class="form-control" id="inputEmail4" formControlName="birdType">
-                <option value="moineau">Moineau</option>
+                <option *ngFor="let bird of birdTypes;" [value]="bird" selected >{{bird}}</option>
               </select>
             </div>
             <div class="form-group col-md-6">

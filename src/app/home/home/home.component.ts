@@ -15,6 +15,7 @@ import { HomeService } from '../home.service';
 })
 export class HomeComponent implements OnInit {
 
+    birdTypes: string[];
     markerForm: FormGroup;
     markers: Observable<IGeoJson[]>;
     markersDict: { [userId: string]: IGeoJson[] };
@@ -28,14 +29,15 @@ export class HomeComponent implements OnInit {
         private homeService: HomeService,
         private eleRef: ElementRef,
     ) {
-        this.initForm();
+        this.birdTypes = ['moineau'];
         this.markers = of([]);
         this.markersDict = {};
         this.currentUser = this.homeService.getCurrentUser$();
         this.coordinates = this.mapService._tappedCoordinates;
     }
-
+    
     ngOnInit() {
+        this.initForm();
         this.cancelButton = this.eleRef.nativeElement.querySelector('#newMarkerModalCancel');
         this.mapService.getMarkers().subscribe(c => {
             Object.keys(c).forEach((key: string) => {
@@ -47,7 +49,7 @@ export class HomeComponent implements OnInit {
 
     initForm() {
         this.markerForm = new FormGroup({
-            birdType: new FormControl(null, [Validators.required]),
+            birdType: new FormControl(this.birdTypes[0], [Validators.required]),
             message: new FormControl(null),
             // address: new FormControl(null, [Validators.required]),
             // city: new FormControl(null, [Validators.required]),

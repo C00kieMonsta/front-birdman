@@ -23,8 +23,6 @@ export class MapboxComponent implements OnInit {
     style: string;
     lat: number;
     lng: number;
-    timeLeft: number;
-    isMoving: boolean;
     interval;
     timeout;
 
@@ -33,11 +31,9 @@ export class MapboxComponent implements OnInit {
 
     constructor(private mapService: MapService) {
         this.markers = [];
-        this.isMoving = false;
         this.style = 'mapbox://styles/mapbox/streets-v11';
         this.lat = 0;
         this.lng = 0;
-        this.timeLeft = 1;
     }
 
     ngOnInit() {
@@ -99,23 +95,23 @@ export class MapboxComponent implements OnInit {
             this.resetTimer();
         });
 
-        this.map.on('pitch', (event) => {
+        this.map.on('pitch', (_event) => {
             this.resetTimer();
         });
 
-        this.map.on('zoom', (event) => {
+        this.map.on('zoom', (_event) => {
             this.resetTimer();
         });
 
-        this.map.on('touchend', (event) => {
+        this.map.on('touchend', (_event) => {
             this.resetTimer();
         });
 
-        this.map.on('mouseup', (event) => {
+        this.map.on('mouseup', (_event) => {
             this.resetTimer();
         });
 
-        this.map.on('load', (event) => {
+        this.map.on('load', (_event) => {
 
             // disable scroll
             this.mapService.map.scrollZoom.disable();
