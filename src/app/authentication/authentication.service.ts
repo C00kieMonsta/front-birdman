@@ -42,6 +42,7 @@ export class AuthenticationService {
                     this.router.navigate(['/'], {replaceUrl: true});
                 } else {
                     alert('Did you verify your email?');
+                    u.user.sendEmailVerification();
                     this.router.navigate(['/info'], {replaceUrl: true});
                 }
             }).catch((err) => {
