@@ -38,7 +38,12 @@ export class AuthenticationService {
     async  login(email: string, password: string) {
         try {
             this.afAuth.auth.signInWithEmailAndPassword(email, password).then(u => {
-                this.router.navigate(['/'], {replaceUrl: true});
+                if (u.user.emailVerified) {
+                    this.router.navigate(['/'], {replaceUrl: true});
+                } else {
+                    alert('Did you verify your email?');
+                    this.router.navigate(['/info'], {replaceUrl: true});
+                }
             }).catch((err) => {
                 alert('Wrong credentials');
             });
@@ -51,7 +56,12 @@ export class AuthenticationService {
         try {
             this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(u => {
                 this.firestore.collection('users').doc(u.user.uid).set({ email });
-                this.router.navigate(['/'], {replaceUrl: true});
+                u.user.sendEmailVerification();
+                if (u.user.emailVerified) {
+                    this.router.navigate(['/'], {replaceUrl: true});
+                } else {
+                    this.router.navigate(['/info'], {replaceUrl: true});
+                }
             }).catch((err) => {
                 alert('Soemthing went wrong!');
             });
