@@ -1,14 +1,15 @@
 <!-- Tablet and full screen welcome page -->
 <div class="d-flex flex-row justify-content-between" style="width: 100%; height: 100vh; background-color: whitesmoke"
-  (window:resize)="onResize($event)">
-  <!-- left page -->
-  <div *ngIf="!(isTabletSize | async)" style="flex: 1" class="d-flex flex-column justify-content-center align-items-center p-3 text-center left-page-container">
-    <h4 class="mb-4" style="color: whitesmoke">Bird Man</h4>
-    <p style="color: lightgray">Aidez nous à geolocaliser les oiseaux qui nous entourent!</p>
-  </div>
+	(window:resize)="onResize($event)">
+	<!-- left page -->
+	<div *ngIf="!(isTabletSize | async)" style="flex: 1"
+		class="d-flex flex-column justify-content-center align-items-center p-3 text-center left-page-container">
+		<h4 class="mb-4" style="color: whitesmoke">Bird Man</h4>
+		<p style="color: lightgray">Aidez nous à geolocaliser les oiseaux qui nous entourent!</p>
+	</div>
 
-  <!-- right page -->
-  <div class="container h-100" style="flex: 2">
+	<!-- right page -->
+	<div class="container h-100" style="flex: 2">
 		<div class="d-flex flex-column align-items-center justify-content-center h-100">
 			<div class="user_card">
 				<div class="d-flex justify-content-center">
@@ -22,29 +23,34 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" name="" formControlName="email" class="form-control input_user" value="" placeholder="email">
+							<input type="text" name="" formControlName="email" class="form-control input_user" value=""
+								placeholder="email">
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="password" formControlName="password" name="" class="form-control input_pass" value="" placeholder="password">
+							<input type="password" formControlName="password" name="" class="form-control input_pass"
+								value="" placeholder="password">
 						</div>
 						<div *ngIf="!isSignInView" class="form-group">
 							<div class="custom-control custom-checkbox">
-                <input type="checkbox" class="form-check-input" id="termsAndConditions" formControlName="termsAndConditions">
-                <label class="form-check-label" for="termsAndConditions">
-                  <small>
-                    I accept the
-                    <a routerLink="/terms-and-conditions">Terms of Service</a> and have read the Services Privacy Policy
-                  </small>
-                </label>
+								<input type="checkbox" class="form-check-input" id="termsAndConditions"
+									formControlName="termsAndConditions">
+								<label class="form-check-label" for="termsAndConditions">
+									<small>
+										I accept the
+										<a routerLink="/terms-and-conditions">Terms of Service</a> and have read the
+										Services Privacy Policy
+									</small>
+								</label>
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class="d-flex justify-content-center mt-3 login_container">
-					<button type="button" name="button" class="btn login_btn" (click)="onSubmitForm()">{{ isSignInView ? 'Login' : 'Sign Up'}}</button>
+					<button type="button" name="button" class="btn login_btn"
+						(click)="onSubmitForm()">{{ isSignInView ? 'Login' : 'Sign Up'}}</button>
 				</div>
 				<div class="mt-4">
 					<div *ngIf="isSignInView" class="d-flex justify-content-center links">
@@ -58,14 +64,11 @@
 					</div> -->
 				</div>
 			</div>
-			
+
 			<!-- Footer -->
 			<div>
 				<app-footer></app-footer>
 			</div>
 		</div>
-
-
 	</div>
-
 </div>

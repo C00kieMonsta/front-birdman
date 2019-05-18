@@ -13,8 +13,7 @@ export class FooterComponent implements OnInit {
   fullYear: string;
 
   constructor() {
-    // this.version = environment.finboardappVersion;
-    this.version = 'r';
+    this.version = environment.appVersion;
     this.fullYear = `${new Date().getFullYear()}`;
   }
 
