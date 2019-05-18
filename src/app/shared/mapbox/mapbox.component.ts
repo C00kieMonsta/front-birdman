@@ -159,7 +159,7 @@ export class MapboxComponent implements OnInit {
                     el.style.height = '30px';
 
                     el.addEventListener('click', () => {
-                        window.alert(marker.properties.message);
+                        window.alert(`Un ${marker.properties.birdType} localisé par ${marker.properties.author}`);
                     });
 
                     // add marker to map

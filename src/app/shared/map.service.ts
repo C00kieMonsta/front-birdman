@@ -75,11 +75,11 @@ export class MapService {
                 });
             }),
             map((snapshots) => {
-                const markers = snapshots.map((doc) => {
+                const markers = snapshots.map((doc: any) => {
                     return userRef.doc(doc.id).collection('markers').snapshotChanges().pipe(
                         map((ms) => {
                             return {
-                                [`${doc.id}`]: ms.map((m) => {
+                                [`${doc.id}:${doc.email}`]: ms.map((m) => {
                                     const data = m.payload.doc.data() as any;
                                     const key = m.payload.doc.id;
                                     return { key, ...data } as IGeoJson;
