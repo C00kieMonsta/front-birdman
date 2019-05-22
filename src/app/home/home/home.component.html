@@ -24,10 +24,15 @@
         <div class="markers-container mt-4">
           <div id="accordion">
 
-            <div class="card" *ngFor="let item of markersDict | keyvalue; let i = index;">
-              <a class="card-header" id="headingOne" data-toggle="collapse" [attr.data-target]="'#collapseOne' + i"
+            <div class="card mb-3" *ngFor="let item of markersDict | keyvalue; let i = index;">
+              <a class="card-header d-flex flex-row justify-content-between" id="headingOne" data-toggle="collapse" [attr.data-target]="'#collapseOne' + i"
               aria-expanded="true" [attr.aria-controls]="'collapseOne' + i">
-                  Marqueurs de <strong>{{ item.key.split(':')[1] }}</strong>
+              <div>
+                <strong>{{ item.key.split(':')[1] }}</strong>
+              </div>
+              <div>
+                <small class="badge badge-secondary">{{ item.value?.length }} marqueurs</small>
+              </div>
               </a>
 
               <div [attr.id]="'collapseOne' + i" class="collapse" aria-labelledby="headingOne"
@@ -37,9 +42,13 @@
                     <h5 class="card-title">{{ marker?.properties.message }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Localisé par: {{ marker?.properties.author }}</h6>
                     <p><strong>Type d'oiseau:</strong> {{ marker?.properties.birdType }}</p>
-                    <button class="btn btn-outline-success mx-2" (click)="onFlyToMarker(marker)">Localiser</button>
-                    <button *ngIf="(currentUser | async)?.uid === item.key.split(':')[0]" class="btn btn-outline-danger"
-                      (click)="removeMarker(marker?.key)">Supprimer</button>
+                    <div class="d-flex flex-row justify-content-between">
+                      <button class="btn btn-sm btn-outline-success mx-2" (click)="onFlyToMarker(marker)">Localiser</button>
+                      <button *ngIf="(currentUser | async)?.uid === item.key.split(':')[0]" class="btn btn-sm btn-outline-danger"
+                        (click)="removeMarker(marker?.key)">Supprimer</button>
+                      <button *ngIf="(currentUser | async)?.uid !== item.key.split(':')[0]" class="btn btn-sm btn-outline-danger"
+                        (click)="reportMarker(marker?.key)">Report</button>
+                    </div>
                   </div>
                 </div>
               </div>

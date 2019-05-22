@@ -62,6 +62,10 @@ export class HomeComponent implements OnInit {
         });
     }
 
+    reportMarker(key: string) {
+        //
+    }
+
     createNewMarker() {
         if (this.markerForm.valid) {
             const combined = combineLatest(
