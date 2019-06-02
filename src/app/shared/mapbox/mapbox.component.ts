@@ -95,23 +95,23 @@ export class MapboxComponent implements OnInit {
             this.resetTimer();
         });
 
-        this.map.on('pitch', (_event) => {
+        this.map.on('pitch', (event) => {
             this.resetTimer();
         });
 
-        this.map.on('zoom', (_event) => {
+        this.map.on('zoom', (event) => {
             this.resetTimer();
         });
 
-        this.map.on('touchend', (_event) => {
+        this.map.on('touchend', (event) => {
             this.resetTimer();
         });
 
-        this.map.on('mouseup', (_event) => {
+        this.map.on('mouseup', (event) => {
             this.resetTimer();
         });
 
-        this.map.on('load', (_event) => {
+        this.map.on('load', (event) => {
 
             // disable scroll
             this.mapService.map.scrollZoom.disable();
@@ -154,9 +154,10 @@ export class MapboxComponent implements OnInit {
                     // create a DOM element for the marker
                     const el = document.createElement('div');
                     el.className = 'marker';
-                    el.style.backgroundImage = 'url(assets/brand/icon.svg)';
-                    el.style.width = '30px';
-                    el.style.height = '30px';
+                    el.style.backgroundImage = 'url(assets/birdman-pin.svg)';
+                    el.style.backgroundRepeat = 'no-repeat';
+                    el.style.width = '35px';
+                    el.style.height = '35px';
 
                     el.addEventListener('click', () => {
                         window.alert(`Un ${marker.properties.birdType} localisé par ${marker.properties.author}`);

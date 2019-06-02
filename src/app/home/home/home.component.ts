@@ -33,9 +33,9 @@ export class HomeComponent implements OnInit {
         this.markers = of([]);
         this.markersDict = {};
         this.currentUser = this.homeService.getCurrentUser$();
-        this.coordinates = this.mapService._tappedCoordinates;
+        this.coordinates = this.mapService.tappedCoordinates;
     }
-    
+
     ngOnInit() {
         this.initForm();
         this.cancelButton = this.eleRef.nativeElement.querySelector('#newMarkerModalCancel');

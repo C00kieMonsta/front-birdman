@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from "@angular/core";
+import { Injectable, EventEmitter } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { Map } from 'mapbox-gl';
 import { of, Observable, concat, Subject, BehaviorSubject } from 'rxjs';
@@ -8,9 +8,9 @@ import { environment } from '../../environments/environment';
 import { GeoJson } from '../api/models/geojson.model';
 import { map, filter, switchMap, combineLatest, concatMap, mergeMap } from 'rxjs/operators';
 import { IGeoJson } from '../api/api.model';
-import { UserAdminState } from "../store/user-admin-store/user-admin.reducers";
-import { Store } from "@ngrx/store";
-import { GlobalState } from "../store/global-state.reducers";
+import { UserAdminState } from '../store/user-admin-store/user-admin.reducers';
+import { Store } from '@ngrx/store';
+import { GlobalState } from '../store/global-state.reducers';
 
 
 @Injectable({ providedIn: 'root' })
@@ -18,12 +18,12 @@ export class MapService {
 
     public map: Map;
     public changes: EventEmitter<any> = new EventEmitter();
-    public _tappedCoordinates = new BehaviorSubject<number[]>(null);
+    public tappedCoordinates = new BehaviorSubject<number[]>(null);
 
     private userAdminState: Observable<UserAdminState>;
 
-    get tappedCoordinates() {
-        return this._tappedCoordinates.asObservable();
+    get getTappedCoordinates() {
+        return this.tappedCoordinates.asObservable();
     }
 
     constructor(
@@ -34,7 +34,7 @@ export class MapService {
         this.userAdminState = this.store.select('userAdmin');
         navigator.geolocation.getCurrentPosition((position) => {
             const coords = [position.coords.longitude, position.coords.latitude];
-            this._tappedCoordinates.next(coords);
+            this.tappedCoordinates.next(coords);
           });
     }
 
@@ -65,7 +65,7 @@ export class MapService {
     }
 
     getMarkers() {
-        const userRef = this.firestore.collection("users");
+        const userRef = this.firestore.collection('users');
         return userRef.snapshotChanges().pipe(
             map((actions) => {
                 return actions.map(a => {
@@ -84,7 +84,7 @@ export class MapService {
                                     const key = m.payload.doc.id;
                                     return { key, ...data } as IGeoJson;
                                 }),
-                            }
+                            };
                         })
                     );
                 });
@@ -108,7 +108,7 @@ export class MapService {
 
     updatedTappedCoordinates(coord: number[]) {
         // 0: lon 1: lat
-        this._tappedCoordinates.next(coord);
+        this.tappedCoordinates.next(coord);
     }
 }
 
