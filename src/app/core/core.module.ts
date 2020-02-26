@@ -1,5 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -9,7 +8,6 @@ import { ApiService } from '../api/api.service';
 import { ShellService } from './shell/shell.service';
 import {HeaderComponent} from './shell/header/header.component';
 import {TopbarComponent} from './shell/header/topbar/topbar.component';
-import { Route } from './route.service';
 import { PageNotFoundComponent } from './events/errors/page-not-found/page-not-found.component';
 import { PageErrorComponent } from './events/errors/page-error/page-error.component';
 
