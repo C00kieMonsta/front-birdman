@@ -11,7 +11,7 @@ import { AuthenticationService } from '../../../../authentication/authentication
 })
 export class TopbarComponent implements OnInit {
 
-  @ViewChild('searchField') searchField: ElementRef;
+@ViewChild('searchField', {static: false}) searchField: ElementRef;
 
   toggleSearch: boolean;
   categoriesCollapsed: boolean;
